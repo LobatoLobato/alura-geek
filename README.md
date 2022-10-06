@@ -1,3 +1,3 @@
 # alura-challenge-frontend
 
-## Running on
+## Running on https://alura-challenge-frontend-bice.vercel.app/
