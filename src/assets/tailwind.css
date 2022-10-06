@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  p {
+    @apply scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-[#2A7AE4]
+    scrollbar-track-rounded-xl scrollbar-thumb-rounded-xl;
+  }
+}
+@layer components {
+  .botaoPrimario {
+    @apply h-10 bg-[#2A7AE4] text-center font-raleway text-sm font-semibold 
+    text-white transition-colors duration-75 hover:bg-[#5595E9] 
+    active:shadow-inner active:shadow-black desktop:h-12
+    desktop:text-base desktop:font-normal;
+  }
+  .botaoSecundario {
+    @apply box-border h-10 border border-solid border-[#2A7AE4] bg-white
+    text-center font-raleway text-sm font-semibold text-[#2A7AE4]
+    transition-colors duration-75 hover:bg-[#D4E4FA] active:shadow-inner
+    active:shadow-black desktop:h-12 desktop:text-base desktop:font-normal;
+  }
+}
