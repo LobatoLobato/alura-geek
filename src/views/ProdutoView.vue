@@ -44,19 +44,20 @@ export default defineComponent({
       descricao: "lorem",
     };
     for (const key of new URLSearchParams(window.location.search).entries()) {
+      console.log(key[0] + " " + key[1]);
       teste[key[0]] = key[1];
     }
 
     const productInfo = ref(teste);
     let produtosRelacionados = ref<IProduto[]>(
-      ListaDeProdutosJSON[0].diversos.lista
+      ListaDeProdutosJSON.diversos.lista
     );
     switch (productInfo.value.categoria.toLowerCase()) {
       case "starwars":
-        produtosRelacionados.value = ListaDeProdutosJSON[0].starwars.lista;
+        produtosRelacionados.value = ListaDeProdutosJSON.starwars.lista;
         break;
       case "consoles":
-        produtosRelacionados.value = ListaDeProdutosJSON[0].consoles.lista;
+        produtosRelacionados.value = ListaDeProdutosJSON.consoles.lista;
         break;
     }
     return { productInfo, produtosRelacionados };

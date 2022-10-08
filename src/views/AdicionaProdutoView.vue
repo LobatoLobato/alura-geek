@@ -6,11 +6,13 @@
     <form
       action="produto"
       method="GET"
+      enctype="multipart/form-data"
       class="mx-auto my-8 flex w-11/12 flex-col gap-4 font-raleway text-xs desktop:w-2/5"
     >
       <h1 class="text-3xl font-bold text-[#464646]">Adicionar novo produto</h1>
+
+      <!-- imagem -->
       <div class="flex items-center justify-between gap-2">
-        <!-- imagem -->
         <div class="flex items-center justify-between" v-if="imageFromFile">
           <div
             class="flex h-32 w-2/5 flex-col items-center justify-evenly border-2 border-dashed border-gray-400 bg-white text-center mobile:hidden"
@@ -25,8 +27,14 @@
             <label for="file" class="cursor-pointer"
               >Procure no seu dispositivo</label
             >
-            <input type="file" hidden id="file" name="file" required />
-            <output for="file"> </output>
+            <input
+              type="file"
+              hidden
+              id="file"
+              name="file"
+              required
+              accept="image/*"
+            />
           </button>
         </div>
         <div class="form w-full" v-else>
@@ -43,8 +51,8 @@
         </button>
       </div>
 
+      <!--Categoria-->
       <div class="form relative">
-        <!--Categoria-->
         <label for="categoria">Categoria</label>
         <select
           class="absolute bottom-2.5 left-2 w-[97%] border-none text-base outline-none"
@@ -57,14 +65,14 @@
         </select>
       </div>
 
+      <!--Nome-->
       <div class="form">
-        <!--Nome-->
         <label for="nome">Nome do Produto</label>
         <input type="text" name="nome" id="nome" required />
       </div>
 
+      <!--Preço-->
       <div class="form">
-        <!--Preço-->
         <label for="preco">Preço do Produto</label>
         <div class="flex items-center">
           <p class="mr-1 text-base">R$</p>

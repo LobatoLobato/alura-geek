@@ -33,9 +33,9 @@ import VProduct from "@/components/VProduct.vue";
 export default defineComponent({
   setup() {
     const listaDeProdutos = ref([
-      ...ListaDeProdutosJSON[0].starwars.lista,
-      ...ListaDeProdutosJSON[0].consoles.lista,
-      ...ListaDeProdutosJSON[0].diversos.lista,
+      ...ListaDeProdutosJSON.starwars.lista,
+      ...ListaDeProdutosJSON.consoles.lista,
+      ...ListaDeProdutosJSON.diversos.lista,
     ]);
     return { listaDeProdutos };
   },

@@ -8,7 +8,6 @@
   >
   <div class="home">
     <div class="banner">
-      <!-- <img src="" /> -->
       <div class="info">
         <h1>Dezembro Promocional</h1>
         <h2>Produtos selecionados com 33% de desconto</h2>
@@ -35,7 +34,7 @@ import VProductList from "@/components/VProductList.vue";
 
 export default defineComponent({
   setup() {
-    const listaDeProdutos = ref(ListaDeProdutosJSON[0]);
+    const listaDeProdutos = ref(ListaDeProdutosJSON);
     return { listaDeProdutos };
   },
   components: {

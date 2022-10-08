@@ -7,16 +7,10 @@
         /></router-link>
         <ul class="links">
           <li><a href="/about/#quemsomos">Quem somos nós</a></li>
-          <li>
-            <a href="/about/#priv">Política de privacidade</a>
-          </li>
-          <li>
-            <a href="/about/#fidelidade">Programa fidelidade</a>
-          </li>
+          <li><a href="/about/#priv">Política de privacidade</a></li>
+          <li><a href="/about/#fidelidade">Programa fidelidade</a></li>
           <li><a href="/about/#lojas">Nossas lojas</a></li>
-          <li>
-            <a href="/about/#franquia">Quero ser franqueado</a>
-          </li>
+          <li><a href="/about/#franquia">Quero ser franqueado</a></li>
           <li><a href="/about/#anuncie">Anuncie aqui</a></li>
         </ul>
       </div>
@@ -28,7 +22,7 @@
             <input type="text" name="nome" placeholder="..." />
           </div>
           <div class="mensagem">
-            <textarea type="text" placeholder="Escreva sua mensagem" />
+            <textarea type="text" placeholder="Escreva sua mensagem"></textarea>
           </div>
           <button class="botaoPrimario w-36">Enviar mensagem</button>
         </form>
