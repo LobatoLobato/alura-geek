@@ -1,17 +1,34 @@
 <template>
 	<TheHeader>
-		<router-link to="/login"
+		<router-link v-if="!loggedIn" to="/login"
 			><button class="botaoSecundario w-40 desktop:w-44">
 				Login
 			</button></router-link
-		></TheHeader
-	>
+		>
+		<div v-else class="flex items-center justify-center gap-4">
+			<p
+				@click="logout"
+				class="cursor-pointer text-blue-500 hover:text-blue-300"
+			>
+				Logout
+			</p>
+			<router-link to="/todosprodutos"
+				><button class="botaoSecundario w-40 desktop:w-44">
+					Todos Produtos
+				</button></router-link
+			>
+		</div>
+	</TheHeader>
 	<div class="home">
 		<div class="banner">
 			<div class="info">
 				<h1>Dezembro Promocional</h1>
 				<h2>Produtos selecionados com 33% de desconto</h2>
-				<button class="botaoPrimario w-32">Ver Consoles</button>
+				<RouterLink to="/categoria?categoria=consoles"
+					><button type="button" class="botaoPrimario w-32">
+						Ver Consoles
+					</button></RouterLink
+				>
 			</div>
 		</div>
 		<div class="flex flex-col gap-8 py-16">
@@ -54,10 +71,18 @@ export default defineComponent({
 				lista: lista.slice(start, end),
 			};
 		});
-		console.log(lista);
-		// data.forEach((item) => {});
+		console.log(sessionStorage);
 		const listaDeProdutos = ref(lista);
-		return { listaDeProdutos };
+		const loggedIn = sessionStorage.getItem("LoggedIn") === "true";
+		console.log(loggedIn);
+		return { listaDeProdutos, loggedIn };
+	},
+	methods: {
+		logout() {
+			sessionStorage.removeItem("LoggedIn");
+			sessionStorage.removeItem("email");
+			window.location.reload();
+		},
 	},
 	components: {
 		TheHeader,

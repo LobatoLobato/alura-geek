@@ -2,7 +2,9 @@
 	<div class="linhaProdutos">
 		<div class="topo">
 			<h2>{{ titulo }}</h2>
-			<a :href="url">Ver tudo ➔</a>
+			<RouterLink :to="`/categoria?categoria=${lista[0].category}`"
+				>Ver tudo ➔</RouterLink
+			>
 		</div>
 		<div class="produtos">
 			<VProduct
@@ -11,6 +13,8 @@
 				:nome="produto.name"
 				:preco="parseFloat(produto.price)"
 				:imgsrc="produto.image"
+				:category="produto.category"
+				:id="produto.id"
 			/>
 		</div>
 	</div>

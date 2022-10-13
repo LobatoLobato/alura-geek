@@ -4,8 +4,18 @@
 		<div class="precodopodruto">
 			<p class="nome">{{ nome }}</p>
 			<p class="preco">R$ {{ preco.toFixed(2) }}</p>
-			<a :href="href" class="anchor" v-if="!admin">Ver produto</a>
-			<a :href="href" v-else class="adminAnchor">#1111111</a>
+			<a
+				class="anchor"
+				v-if="!admin"
+				:href="`/produto?category=${category}&id=${id}`"
+				>Ver produto</a
+			>
+			<a
+				:href="`/produto?category=${category}&id=${id}`"
+				v-else
+				class="adminAnchor"
+				>#{{ id?.replace(`${category}-`, "") }}</a
+			>
 		</div>
 	</div>
 </template>
@@ -32,6 +42,8 @@ export default defineComponent({
 			required: true,
 			type: Number,
 		},
+		category: String,
+		id: String,
 		href: String,
 		imgsrc: String,
 		admin: Boolean,
@@ -44,7 +56,7 @@ export default defineComponent({
 	@apply relative mb-2 flex shrink-0 flex-col justify-between
    font-raleway mobile:w-[47%] tablet:w-[24%] desktop:w-[15%];
 	img {
-		@apply h-full w-full;
+		@apply h-full w-full tablet:max-h-24 desktop:max-h-44;
 	}
 	.nome {
 		@apply mb-2 text-xs font-medium desktop:text-sm;

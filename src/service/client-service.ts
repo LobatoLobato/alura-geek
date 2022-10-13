@@ -14,6 +14,10 @@ const api = {
 
 		return response.body;
 	},
+	delete: async function (url: string) {
+		const response = await fetch(url, { method: "DELETE" });
+		return response.json();
+	},
 	address: "http://192.168.0.27:3000",
 };
 export default api;

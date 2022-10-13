@@ -1,5 +1,5 @@
 <template>
-	<form>
+	<form @submit.prevent="search">
 		<input
 			type="text"
 			id="buscaItem"
@@ -11,10 +11,17 @@
 </template>
 
 <script lang="ts">
+import router from "@/router";
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
 	name: "VSearchBar",
+	methods: {
+		search() {
+			const input = document.getElementById("buscaItem") as HTMLInputElement;
+			router.push(`/pesquisa?pesquisa=${input.value}`);
+		},
+	},
 });
 </script>
 

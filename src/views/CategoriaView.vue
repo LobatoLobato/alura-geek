@@ -3,7 +3,7 @@
 	<div class="body">
 		<div class="top">
 			<h1 class="text-xl font-bold text-[#464646] desktop:text-3xl">
-				Todos os produtos
+				{{ categoria }}
 			</h1>
 			<router-link to="adicionarProduto">
 				<button class="botaoPrimario w-36 desktop:w-40">
@@ -18,7 +18,6 @@
 				:nome="produto.name"
 				:preco="parseFloat(produto.price)"
 				:imgsrc="produto.image"
-				:admin="true"
 				:id="produto.id"
 				:category="produto.category"
 			/>
@@ -34,11 +33,18 @@ import api from "@/service/client-service";
 
 export default defineComponent({
 	async setup() {
+		const [category] = new URLSearchParams(window.location.search).values();
 		const data = await api.get<IProduto[]>(`${api.address}/products`);
 		console.log(data);
-		const listaDeProdutos = ref(data);
-		console.log(data[0].category);
-		return { listaDeProdutos };
+		const listaDeProdutos = ref(
+			data.filter((produto) => {
+				return produto.category === category;
+			})
+		);
+		const categoria = category
+			.replace(/_/, " ")
+			.replace(/^(.)|\s+(.)/g, (c) => c.toUpperCase());
+		return { listaDeProdutos, categoria };
 	},
 	components: {
 		TheHeader,

@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="loginFormContainer">
-			<form @submit.prevent="sendForm">
+			<form>
 				<h2>Iniciar Sessão</h2>
 				<input
 					type="text"
@@ -24,18 +24,14 @@
 					id="password"
 					required
 				/>
-				<button class="botaoPrimario w-[109px] desktop:w-full">Entrar</button>
+				<button
+					class="botaoPrimario w-[109px] desktop:w-full"
+					@click="sendForm"
+					type="button"
+				>
+					Cadastrar
+				</button>
 			</form>
-			<div class="flex w-full items-center justify-center pt-4">
-				<RouterLink to="/cadastrar">
-					<button
-						class="botaoSecundario w-fit px-2 desktop:w-fit"
-						type="button"
-					>
-						Cadastrar
-					</button>
-				</RouterLink>
-			</div>
 		</div>
 	</div>
 </template>
@@ -58,38 +54,38 @@ export default defineComponent({
 		async sendForm() {
 			const email = document.getElementById("email") as HTMLInputElement;
 			const password = document.getElementById("password") as HTMLInputElement;
-			if (!(await this.validateInput(email.value, password.value))) {
+			if (!this.validateInput(email.value, password.value)) {
 				return;
 			}
 			sessionStorage.setItem("LoggedIn", "true");
-			sessionStorage.setItem("Email", email.value);
+			if (await api.get(`${api.address}/loginInfo/${email.value}`)) {
+				await api.delete(`${api.address}/loginInfo/${email.value}`);
+			}
+			api.post(`${api.address}/loginInfo`, {
+				id: email.value,
+				password: password.value,
+			});
 			router.push("/todosprodutos");
 		},
-		async validateInput(email: string, password: string) {
+		validateInput(email: string, password: string) {
 			const emailRegex = /.+@[a-z]+\.[a-z]+/gim;
-			const usuario = await api.get<{ email: string; password: string }>(
-				`${api.address}/loginInfo/${email}`
-			);
-			console.log(usuario);
 
-			this.showError = false;
-			let errorMsg = "";
-			if (!usuario) {
-				errorMsg = "Usuario não cadastrado";
-			}
+			const emailIsValid = emailRegex.test(email);
+			const passwordIsValid = password.length >= 8;
 
-			if (!emailRegex.test(email)) {
-				errorMsg = "Insira um endereço de email valido";
-			} else if (password !== usuario.password) {
-				errorMsg = "Senha incorreta";
-			}
-			if (errorMsg) {
-				this.errorMsg = errorMsg;
-				this.showError = true;
-				return false;
-			} else {
+			if (emailIsValid && passwordIsValid) {
+				this.showError = false;
 				return true;
 			}
+
+			this.showError = true;
+
+			if (!emailIsValid) {
+				this.errorMsg = "Insira um endereço de email valido";
+			} else if (!passwordIsValid) {
+				this.errorMsg = "Insira uma senha valida";
+			}
+			return false;
 		},
 	},
 	components: {

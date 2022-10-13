@@ -3,14 +3,10 @@
 	<div class="body">
 		<div class="top">
 			<h1 class="text-xl font-bold text-[#464646] desktop:text-3xl">
-				Todos os produtos
+				Pesquisa
 			</h1>
-			<router-link to="adicionarProduto">
-				<button class="botaoPrimario w-36 desktop:w-40">
-					Adicionar Produto
-				</button></router-link
-			>
 		</div>
+		<p v-show="!achou">Nenhum produto encontrado com o termo {{ pesquisa }}</p>
 		<div class="listaDeProdutos">
 			<VProduct
 				v-for="produto in listaDeProdutos"
@@ -18,7 +14,6 @@
 				:nome="produto.name"
 				:preco="parseFloat(produto.price)"
 				:imgsrc="produto.image"
-				:admin="true"
 				:id="produto.id"
 				:category="produto.category"
 			/>
@@ -34,11 +29,18 @@ import api from "@/service/client-service";
 
 export default defineComponent({
 	async setup() {
+		const [pesquisa] = new URLSearchParams(window.location.search).values();
 		const data = await api.get<IProduto[]>(`${api.address}/products`);
-		console.log(data);
-		const listaDeProdutos = ref(data);
-		console.log(data[0].category);
-		return { listaDeProdutos };
+		const listaDeProdutos = ref(
+			data.filter((produto) => {
+				return produto.name.toLowerCase().includes(pesquisa);
+			})
+		);
+		const achou = listaDeProdutos.value.length > 0;
+		window.addEventListener("submit", () => {
+			window.location.reload();
+		});
+		return { listaDeProdutos, pesquisa, achou };
 	},
 	components: {
 		TheHeader,
