@@ -4,12 +4,13 @@
 	</TheHeader>
 	<div class="body">
 		<div class="flex h-11 w-full items-center justify-center desktop:h-24">
-			<VErrorBox v-show="showError" :error-msg="errorMsg"></VErrorBox>
+			<VErrorBox
+				v-show="showError"
+				:error="true"
+				:message="errorMsg"
+			></VErrorBox>
 		</div>
 		<form
-			action="produto"
-			method="GET"
-			enctype="multipart/form-data"
 			class="mx-auto my-8 flex w-11/12 flex-col gap-4 font-raleway text-xs desktop:w-2/5"
 		>
 			<h1 class="text-3xl font-bold text-[#464646]">Adicionar novo produto</h1>
@@ -24,13 +25,16 @@
 
 				<div class="form w-full" v-else>
 					<label for="url">URL da imagem</label>
-					<input type="url" name="url" id="url" @change="setImgURL" />
+					<input
+						type="url"
+						id="url"
+						@change="(ev: Event) => imageUrl = getInputData(ev)"
+					/>
 				</div>
 
 				<button
-					type="button"
 					class="botaoSecundario mb-1 w-fit rounded-full px-4"
-					@click="imageFromFile = !imageFromFile"
+					@click.prevent="imageFromFile = !imageFromFile"
 				>
 					<fa v-if="imageFromFile" icon="link" class="w-4" />
 					<fa v-else icon="image" class="w-4" />
@@ -39,14 +43,13 @@
 
 			<!--Categoria-->
 			<div class="form relative">
-				<label for="categoria">Categoria</label>
+				<label for="category">Categoria</label>
 				<select
 					class="absolute bottom-2.5 left-2 w-[97%] border-none text-base outline-none"
-					name="categoria"
-					id="categoria"
-					@change="setCategory"
+					id="category"
+					@change="(ev: Event) => category = getInputData(ev)"
 				>
-					<option value="starwars">Star Wars</option>
+					<option value="star_wars">Star Wars</option>
 					<option value="consoles">Consoles</option>
 					<option value="diversos">Diversos</option>
 				</select>
@@ -54,38 +57,36 @@
 
 			<!--Nome-->
 			<div class="form">
-				<label for="nome">Nome do Produto</label>
-				<input type="text" name="nome" id="nome" required @input="setName" />
+				<label for="name">Nome do Produto</label>
+				<input
+					type="text"
+					id="name"
+					@input="(ev: Event) => name = getInputData(ev)"
+				/>
 			</div>
 
 			<!--Preço-->
 			<div class="form">
-				<label for="preco">Preço do Produto</label>
+				<label for="price">Preço do Produto</label>
 				<div class="flex items-center">
 					<p class="mr-1 text-base">R$</p>
 					<input
 						type="number"
-						name="preco"
-						id="preco"
-						min="0"
-						required
+						id="price"
 						placeholder="1,00"
-						@input="setPrice"
+						@input="(ev: Event) => price = getInputData(ev)"
 					/>
 				</div>
 			</div>
 
 			<!--Descrição-->
 			<textarea
-				id="descricao"
-				name="descricao"
-				class="h-20 w-full resize-none overflow-hidden px-3 py-3 text-base shadow-sm shadow-[#0000005e] outline-none"
+				class="description"
 				placeholder="Descrição do Produto"
-				required
-				@input="setDescription"
+				@input="(ev: Event) => description = getInputData(ev)"
 			></textarea>
 
-			<button class="botaoPrimario w-full" type="button" @click="sendForm">
+			<button class="botaoPrimario w-full" @click.prevent="sendForm">
 				Adicionar Produto
 			</button>
 		</form>
@@ -93,11 +94,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import TheHeader from "@/components/TheHeader.vue";
 import VDropZone from "@/components/VDropZone.vue";
-import VErrorBox from "@/components/VErrorBox.vue";
+import VErrorBox from "@/components/VMessageBox.vue";
 import router from "@/router";
+import api from "@/service/client-service";
 
 export default defineComponent({
 	data() {
@@ -105,11 +107,11 @@ export default defineComponent({
 			imageUrl: "",
 			imageFile: undefined as File | undefined,
 			imageFromFile: false,
-			category: "starwars",
+			category: "star_wars",
 			name: "",
 			price: "",
 			description: "",
-			errorMsg: [""],
+			errorMsg: "",
 			showError: false,
 		};
 	},
@@ -121,30 +123,13 @@ export default defineComponent({
 		},
 		selectedFile(ev: Event) {
 			const fileInput = ev.target as HTMLInputElement;
-
 			if (fileInput.files && fileInput.files.length > 0) {
 				this.imageFile = fileInput.files[0];
 			}
 		},
-		setImgURL(ev: Event) {
+		getInputData(ev: Event) {
 			const input = ev.target as HTMLInputElement;
-			this.imageUrl = input.value;
-		},
-		setCategory(ev: Event) {
-			const input = ev.target as HTMLInputElement;
-			this.category = input.value;
-		},
-		setName(ev: Event) {
-			const input = ev.target as HTMLInputElement;
-			this.name = input.value;
-		},
-		setPrice(ev: Event) {
-			const input = ev.target as HTMLInputElement;
-			this.price = input.value;
-		},
-		setDescription(ev: Event) {
-			const input = ev.target as HTMLInputElement;
-			this.description = input.value;
+			return input.value;
 		},
 		async sendForm() {
 			if (!this.validateForm()) {
@@ -165,11 +150,11 @@ export default defineComponent({
 					name: this.name,
 					price: this.price,
 					description: this.description,
+					id: `${this.category}-${new Date().getTime()}`,
 				};
-				console.log(product);
-				localStorage.setItem("product", JSON.stringify(product));
-				console.log(localStorage);
-				router.push("/produto");
+
+				api.post(`${api.address}/products`, product);
+				router.push(`/produto?category=${this.category}&id=${product.id}`);
 			};
 		},
 		async urlToFile(url: string): Promise<File> {
@@ -178,7 +163,7 @@ export default defineComponent({
 			const imageFile = new File([blob], "dot.png", blob);
 			return imageFile;
 		},
-		validateForm() {
+		validateForm(): boolean {
 			const urlRegex =
 				/(^| )(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,8}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/gim;
 			const urlIsValid = urlRegex.test(this.imageUrl);
@@ -187,26 +172,19 @@ export default defineComponent({
 
 			this.showError = false;
 
-			const errorMsg = [];
-			if (this.imageFromFile) {
-				if (!this.imageFile) {
-					errorMsg.push("Insira um arquivo de imagem");
-				}
-			} else {
-				if (!urlIsValid) {
-					errorMsg.push("Insira uma url válida");
-				}
+			let errorMsg = "";
+			if (this.imageFromFile && !this.imageFile) {
+				errorMsg = "Insira um arquivo de imagem";
+			} else if (!this.imageFromFile && !urlIsValid) {
+				errorMsg = "Insira uma url válida";
+			} else if (!this.name) {
+				errorMsg = "Insira um nome válido";
+			} else if (!this.price || !priceIsValid) {
+				errorMsg = "Insira um preço válido";
+			} else if (!this.description) {
+				errorMsg = "Insira uma descrição válida";
 			}
 
-			if (!this.name) {
-				errorMsg.push("Insira um nome válido");
-			}
-			if (!this.price || !priceIsValid) {
-				errorMsg.push("Insira um preço válido");
-			}
-			if (!this.description) {
-				errorMsg.push("Insira uma descrição válida");
-			}
 			if (errorMsg.length > 0) {
 				this.errorMsg = errorMsg;
 				this.showError = true;
@@ -246,6 +224,10 @@ export default defineComponent({
 			-moz-appearance: textfield;
 			appearance: none;
 		}
+	}
+	.description {
+		@apply h-20 w-full resize-none overflow-hidden px-3 py-3 
+		text-base shadow-sm shadow-[#0000005e] outline-none;
 	}
 }
 </style>

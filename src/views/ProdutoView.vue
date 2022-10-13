@@ -21,37 +21,29 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import ListaDeProdutosJSON from "@/assets/ListaDeProdutos.json";
 import { IProduto } from "@/components/VProduct.vue";
 import TheHeader from "@/components/TheHeader.vue";
 import VProductList from "@/components/VProductList.vue";
+import api from "@/service/client-service";
 
-interface IProductInfo {
-	[key: string]: string;
-	image: string;
-	category: string;
-	name: string;
-	price: string;
-	description: string;
-}
 export default defineComponent({
-	setup() {
-		const currentProduct = localStorage.getItem("product");
-		const productInfo = ref<IProductInfo>(
-			currentProduct ? JSON.parse(currentProduct) : {}
-		);
+	async setup() {
+		const [category, id] = new URLSearchParams(window.location.search).values();
+		const data = await api.get<IProduto[]>(`${api.address}/products`);
+		const lista = data.filter((product) => {
+			return product.category === category;
+		});
 
-		let produtosRelacionados = ref<IProduto[]>(
-			ListaDeProdutosJSON.diversos.lista
+		const productInfo = await api.get<IProduto>(
+			`${api.address}/products/${id}`
 		);
-		switch (productInfo.value.category.toLowerCase()) {
-			case "starwars":
-				produtosRelacionados.value = ListaDeProdutosJSON.starwars.lista;
-				break;
-			case "consoles":
-				produtosRelacionados.value = ListaDeProdutosJSON.consoles.lista;
-				break;
-		}
+		const start =
+			lista.length >= 6 ? Math.round(Math.random() * (lista.length - 6)) : 0;
+		const end = start + 6;
+		console.log(start);
+		console.log(end);
+		const produtosRelacionados = ref<IProduto[]>(lista.slice(start, end));
+
 		return { productInfo, produtosRelacionados };
 	},
 	components: {

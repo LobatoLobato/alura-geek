@@ -2,7 +2,11 @@
 	<TheHeader></TheHeader>
 	<div class="login">
 		<div class="flex h-11 w-full items-center justify-center desktop:h-24">
-			<VErrorBox v-show="showError" :error-msg="errorMsg"></VErrorBox>
+			<VErrorBox
+				v-show="showError"
+				:error="true"
+				:message="errorMsg"
+			></VErrorBox>
 		</div>
 
 		<div class="loginFormContainer">
@@ -34,7 +38,7 @@
 
 <script lang="ts">
 import TheHeader from "@/components/TheHeader.vue";
-import VErrorBox from "@/components/VErrorBox.vue";
+import VErrorBox from "@/components/VMessageBox.vue";
 import router from "@/router";
 import { defineComponent } from "vue";
 
@@ -42,7 +46,7 @@ export default defineComponent({
 	data() {
 		return {
 			showError: false,
-			errorMsg: [""],
+			errorMsg: "",
 		};
 	},
 	methods: {
@@ -62,12 +66,10 @@ export default defineComponent({
 
 			this.showError = true;
 
-			this.errorMsg = [];
 			if (!emailIsValid) {
-				this.errorMsg.push("Insira um endereço de email valido");
-			}
-			if (!passwordIsValid) {
-				this.errorMsg.push("Insira uma senha valida");
+				this.errorMsg = "Insira um endereço de email valido";
+			} else if (!passwordIsValid) {
+				this.errorMsg = "Insira uma senha valida";
 			}
 		},
 	},

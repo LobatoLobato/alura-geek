@@ -1,0 +1,160 @@
+{
+	"products": [
+		{
+			"name": "Produto XYZ",
+			"price": "60",
+			"image": "/img/Produtos/SW/Skill.png",
+			"category": "star_wars",
+			"description": "Descrição do produto",
+			"id": "star_wars-1"
+		},
+		{
+			"name": "Produto XYZ",
+			"price": "60",
+			"image": "/img/Produtos/SW/Skill-1.png",
+			"category": "star_wars",
+			"description": "Descrição do produto",
+			"id": "star_wars-2"
+		},
+		{
+			"name": "Produto XYZ",
+			"price": "60",
+			"image": "/img/Produtos/SW/Skill-2.png",
+			"category": "star_wars",
+			"description": "Descrição do produto",
+			"id": "star_wars-3"
+		},
+		{
+			"name": "Produto XYZ",
+			"price": "60",
+			"image": "/img/Produtos/SW/Skill-3.png",
+			"category": "star_wars",
+			"description": "Descrição do produto",
+			"id": "star_wars-4"
+		},
+		{
+			"name": "Produto XYZ",
+			"price": "60",
+			"image": "/img/Produtos/SW/Skill-4.png",
+			"category": "star_wars",
+			"description": "Descrição do produto",
+			"id": "star_wars-5"
+		},
+		{
+			"name": "Produto XYZ",
+			"price": "60",
+			"image": "/img/Produtos/SW/Skill-5.png",
+			"category": "star_wars",
+			"description": "Descrição do produto",
+			"id": "star_wars-6"
+		},
+		{
+			"name": "Controle XYZ",
+			"price": "60",
+			"image": "/img/Produtos/Consoles/Skill.png",
+			"category": "consoles",
+			"description": "Descrição do produto",
+			"id": "consoles-1"
+		},
+		{
+			"name": "Controle e console XYZ",
+			"price": "60",
+			"image": "/img/Produtos/Consoles/Skill-1.png",
+			"category": "consoles",
+			"description": "Descrição do produto",
+			"id": "consoles-2"
+		},
+		{
+			"name": "Console XYZ",
+			"price": "60",
+			"image": "/img/Produtos/Consoles/Skill-2.png",
+			"category": "consoles",
+			"description": "Descrição do produto",
+			"id": "consoles-3"
+		},
+		{
+			"name": "Controle XYZ",
+			"price": "60",
+			"image": "/img/Produtos/Consoles/Skill-3.png",
+			"category": "consoles",
+			"description": "Descrição do produto",
+			"id": "consoles-4"
+		},
+		{
+			"name": "Controle XYZ",
+			"price": "60",
+			"image": "/img/Produtos/Consoles/Skill-4.png",
+			"category": "consoles",
+			"description": "Descrição do produto",
+			"id": "consoles-5"
+		},
+		{
+			"name": "Game Boy Color",
+			"price": "60",
+			"image": "/img/Produtos/Consoles/Skill-5.png",
+			"category": "consoles",
+			"description": "Descrição do produto",
+			"id": "consoles-6"
+		},
+		{
+			"name": "Camisa Atari",
+			"price": "60",
+			"image": "/img/Produtos/Diversos/Skill.png",
+			"category": "diversos",
+			"description": "Descrição do produto",
+			"id": "diversos-1"
+		},
+		{
+			"name": "Camisa SNES",
+			"price": "60",
+			"image": "/img/Produtos/Diversos/Skill-1.png",
+			"category": "diversos",
+			"description": "Descrição do produto",
+			"id": "diversos-2"
+		},
+		{
+			"name": "Figure Sonic",
+			"price": "60",
+			"image": "/img/Produtos/Diversos/Skill-2.png",
+			"category": "diversos",
+			"description": "Descrição do produto",
+			"id": "diversos-3"
+		},
+		{
+			"name": "Relogio Digital",
+			"price": "60",
+			"image": "/img/Produtos/Diversos/Skill-3.png",
+			"category": "diversos",
+			"description": "Descrição do produto",
+			"id": "diversos-4"
+		},
+		{
+			"name": "HeadSet VR",
+			"price": "60",
+			"image": "/img/Produtos/Diversos/Skill-4.png",
+			"category": "diversos",
+			"description": "Descrição do produto",
+			"id": "diversos-5"
+		},
+		{
+			"name": "Fantasia Pikachu",
+			"price": "60",
+			"image": "/img/Produtos/Diversos/Skill-5.png",
+			"category": "diversos",
+			"description": "Descrição do produto",
+			"id": "diversos-6"
+		}
+	],
+	"categoryList": [
+		{
+			"name": "star_wars"
+		},
+		{
+			"name": "consoles"
+		},
+		{
+			"name": "diversos"
+		}
+	],
+	"messages": []
+}
